@@ -676,7 +676,12 @@ async function runBatch() {
   if (!batchQueue.length || batchRunning) return;
   batchRunning = true;
   const runBtn = document.querySelector("#batchRunButton");
-  if (runBtn) runBtn.disabled = true;
+  const runBtnLabel = runBtn ? runBtn.textContent : "";
+  if (runBtn) {
+    runBtn.classList.add("btn-busy");
+    runBtn.textContent = "批量比对中…";
+    runBtn.disabled = true;
+  }
   for (let i = 0; i < batchQueue.length; i++) {
     const pair = batchQueue[i];
     pair.status = "比对中";
@@ -705,7 +710,11 @@ async function runBatch() {
     renderBatchQueue();
   }
   batchRunning = false;
-  if (runBtn) runBtn.disabled = false;
+  if (runBtn) {
+    runBtn.disabled = false;
+    runBtn.classList.remove("btn-busy");
+    runBtn.textContent = runBtnLabel;
+  }
   statusEl.textContent = `批量完成（${batchQueue.length} 组）`;
   statusEl.classList.remove("error");
 }
@@ -858,6 +867,9 @@ form.addEventListener("submit", async (event) => {
     return;
   }
 
+  const originalLabel = button.textContent;
+  button.classList.add("btn-busy");
+  button.textContent = "比较中…";
   button.disabled = true;
   statusEl.textContent = "比较中";
   statusEl.classList.remove("error");
@@ -894,5 +906,7 @@ form.addEventListener("submit", async (event) => {
     statusEl.classList.add("error");
   } finally {
     button.disabled = false;
+    button.classList.remove("btn-busy");
+    button.textContent = originalLabel;
   }
 });

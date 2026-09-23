@@ -377,6 +377,7 @@ input[type="radio"], input[type="checkbox"] { accent-color: var(--accent); }
   min-width: 0;
 }
 
+.file-drop:hover { border-color: var(--accent-line); }
 .file-drop.dragover { border-color: var(--accent); background: var(--accent-soft); }
 
 .file-drop span { color: var(--muted); font-size: var(--fs-tiny); }
@@ -484,6 +485,25 @@ input[type="radio"], input[type="checkbox"] { accent-color: var(--accent); }
 .btn-primary:disabled,
 #compareButton:disabled,
 #batchRunButton:disabled { background: #b9c2cc; color: #eef1f5; cursor: default; }
+
+/* 进行中的长任务按钮：转圈 + 文字换成「比较中」。配合 app.js 的 btn-busy 类使用 */
+.btn-busy { cursor: wait; }
+.btn-busy::before {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: 8px;
+  vertical-align: -2px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: busy-spin .8s linear infinite;
+}
+@keyframes busy-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .btn-busy::before { animation: none; border-right-color: currentColor; }
+}
 
 .btn-ghost,
 .tool-button {
@@ -778,6 +798,9 @@ body.dark .tool-button:hover { background: #26282d; }
   font-weight: 700;
   font-size: var(--fs-small);
 }
+
+/* 深色下 accent(#8a5c14) 压在 accent-soft(#2a2418) 上只有约 2.7:1，换提亮档 accent-2 */
+body.dark #regionCount { color: var(--accent-2); }
 
 .region-list {
   display: grid;
