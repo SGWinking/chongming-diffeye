@@ -14,7 +14,7 @@ const pkg = require("./package.json");
    版本号唯一来源：package.json 的 "version"（SERIES-SPEC §3）。 */
 
 const SERIES_NAME = "大云壁画工具箱";
-const TOOL_ID = "diffeye";
+const TOOL_ID = "chongming-diffeye";
 const TOOL_CN = "重明";
 const TOOL_EN = "DiffEye";
 const APP_VERSION = pkg.version;

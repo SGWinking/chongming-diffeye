@@ -9,8 +9,8 @@
 再把相邻的差异点聚成一个个「聚焦区域」，让人按区域逐个复核。
 
 本工具是 **大云壁画工具箱**的一员：相柳网格 · 精卫 · 白泽评审 · **重明 DiffEye** · 工具箱启动台。
-（系列仓库并排克隆时，这些名字是相对链接：[相柳网格](../xiangliu-grid) · [精卫](../jingwei) ·
-[白泽评审](../baize-review) · [工具箱启动台](../mural-toolkit-launcher)。）
+（系列仓库并排克隆时，这些名字是相对链接：[相柳网格](../xiangliu-grid) · [精卫](../jingwei-patch) ·
+[白泽评审](../baize-review) · [工具箱启动台](../dayun-mural-toolkit)。）
 
 重明是系列里唯一的 **Node + Python 双栈**工具：HTTP 服务、上传、像素比对在 Node 侧，
 结构比对引擎在 Python 侧。原因见下面的「依赖」。
