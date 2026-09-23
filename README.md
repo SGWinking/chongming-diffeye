@@ -198,6 +198,18 @@ py -3 -m pip install -r requirements.txt
 
 ---
 
+## API 端点
+
+服务只监听 `127.0.0.1`，以下接口都是本机内部使用，不对外暴露。
+
+| 方法 | 路径 | 说明 |
+|---|---|---|
+| GET | `/api/health` | 系列统一健康检查：版本、端口、Python 路径、DexiNed 可用性、runs 清理状态 |
+| GET | `/health` | 同上（保留旧路径，工具箱启动台兼容用） |
+| GET | `/history` | 历史图片列表 |
+| DELETE | `/history` | 清空历史与 `runs\` 缓存 |
+| POST | `/compare` | 执行比对。`mode=mural` 结构/纹样比对，`mode=pixel` 严格像素比对 |
+| GET | `/runs/...` | 比对产物：原图、对比图、差异图、mask、各区域裁剪 |
 ## 常见问题
 
 **Q：报「两张图片宽高比例不一致，无法比对」。**
