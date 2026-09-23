@@ -1,0 +1,44 @@
+# 大云壁画工具箱 · 重明 DiffEye —— .gitignore
+# 原则（SERIES-SPEC §1.2）：仓库里只有源码、文档、品牌资源。
+# 任何一次运行产生的东西都不进仓库。
+
+# ---- 运行产物 ----
+runs/
+outputs/
+uploads/
+Diffchecker/
+image-history.json
+*history*.json
+
+# ---- 重依赖（体积大，可从 package.json / setup-dexined.bat 重新装出来） ----
+node_modules/
+runtime/
+third_party/
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# ---- 日志与临时文件 ----
+*.log
+*.err
+*.tmp
+npm-debug.log*
+server.out.log
+server.err.log
+
+# ---- 打包产物 ----
+build/
+dist/
+release/*.exe
+*-setup.exe
+
+# ---- 系统与编辑器 ----
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+.env

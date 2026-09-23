@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="重明 DiffEye">
+  <title>重明 · DiffEye</title>
+  <!-- 圆形朱文印：明察辨微的重明之目 -->
+  <!-- 「重明」= 每目双瞳；顶上一簇火苗 = 衔火带来光明 -->
+  <!-- 朱色只走线，不做大面积深色填充 -->
+  <circle cx="32" cy="32" r="30" fill="#ffffff"/>
+  <circle cx="32" cy="32" r="28.5" fill="none" stroke="#b23a2c" stroke-width="2.4"/>
+
+  <!-- 火苗冠：三簇，中间的更高 -->
+  <path d="M25.2 12.4C27 15.2 26.6 17.8 25.1 19.6C23.6 17.8 23.2 15.2 25.2 12.4Z"
+        fill="none" stroke="#b23a2c" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M38.8 12.4C40.8 15.2 40.4 17.8 38.9 19.6C37.4 17.8 37 15.2 38.8 12.4Z"
+        fill="none" stroke="#b23a2c" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M32 8C34.4 12 34 15.6 32 18.6C30 15.6 29.6 12 32 8Z"
+        fill="none" stroke="#b23a2c" stroke-width="2.2" stroke-linejoin="round"/>
+
+  <!-- 面轮 -->
+  <ellipse cx="32" cy="34" rx="16" ry="15" fill="none" stroke="#b23a2c" stroke-width="2.4"/>
+
+  <!-- 双目 -->
+  <circle cx="23" cy="33" r="6.4" fill="none" stroke="#b23a2c" stroke-width="2.2"/>
+  <circle cx="41" cy="33" r="6.4" fill="none" stroke="#b23a2c" stroke-width="2.2"/>
+
+  <!-- 双瞳：每目两个眼珠 -->
+  <circle cx="20.9" cy="33" r="2.2" fill="#b23a2c"/>
+  <circle cx="25.1" cy="33" r="2.2" fill="#b23a2c"/>
+  <circle cx="38.9" cy="33" r="2.2" fill="#b23a2c"/>
+  <circle cx="43.1" cy="33" r="2.2" fill="#b23a2c"/>
+
+  <!-- 喙：一道简洁的折角 -->
+  <path d="M28.4 43.6L32 50L35.6 43.6" fill="none" stroke="#b23a2c" stroke-width="2.2"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- 下端短须，稳住印面重心 -->
+  <path d="M25.5 55.5H38.5" fill="none" stroke="#b23a2c" stroke-width="2.2" stroke-linecap="round"/>
+</svg>

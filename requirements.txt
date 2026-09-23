@@ -1,0 +1,27 @@
+# 大云壁画工具箱 · 重明 DiffEye —— Python 侧依赖
+#
+# 安装：py -3 -m pip install -r requirements.txt
+# （或者直接双击 install.bat，它会连带装好 Node 依赖）
+#
+# 这些包供 mural_compare.py / dexined_edges.py 使用，也就是「壁画纹样」比对模式。
+# 只做「像素差异」比对的话用不到 Python，那条路径由 Node 侧的 odiff 完成。
+
+# 图像读取、对齐、边缘提取、结构比对
+opencv-python>=4.8
+
+# 图像数组运算
+numpy>=1.23
+
+# 图像处理基础库（install.bat 与第三方声明里一致保留）
+Pillow>=9.0
+
+# ---------------------------------------------------------------------------
+# 仅在使用可选的 DexiNed「精细线条」模式时才需要：
+#
+#   torch
+#   torchvision
+#
+# 它们不在上面的列表里，因为默认的「快速 Canny」模式完全不需要模型和
+# PyTorch。要启用 DexiNed 请运行 setup-dexined.bat，它会 clone 官方仓库到
+# third_party/DexiNed/ 并安装 torch / torchvision / kornia / h5py 等依赖。
+# ---------------------------------------------------------------------------

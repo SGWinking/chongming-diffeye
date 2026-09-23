@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>重明 DiffEye · 大云壁画工具箱</title>
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- ============================================================ 页头 -->
+  <header class="series-header">
+    <div class="series-brand">
+      <img src="/assets/logo.svg" alt="重明 DiffEye" width="40" height="40">
+      <div class="names">
+        <span class="series-name">大云壁画工具箱</span>
+        <span class="tool-name">
+          重明
+          <span class="en">DiffEye</span>
+          <span class="ver" id="appVersion">v-</span>
+        </span>
+      </div>
+    </div>
+
+    <nav class="nav-tabs" aria-label="流程">
+      <button class="nav-tab active" data-target="stepInput" type="button">1 选图</button>
+      <button class="nav-tab" data-target="stepSummary" type="button">2 参数</button>
+      <button class="nav-tab" data-target="stepReview" type="button">3 审查</button>
+    </nav>
+
+    <div class="series-meta">
+      <span class="status-dot" id="healthDot" title="服务状态"></span>
+      <span id="healthText">检测中</span>
+      <span class="port" id="portText">:5055</span>
+      <button id="themeToggle" class="theme-toggle" type="button">深色</button>
+    </div>
+  </header>
+
+  <!-- ======================================================== 状态与导出 -->
+  <div class="toolbar">
+    <div id="status" class="status">待选择图片</div>
+    <button id="exportJsonButton" class="btn-ghost" type="button">导出 JSON</button>
+    <button id="exportMdButton" class="btn-ghost" type="button">导出 MD</button>
+  </div>
+
+  <main class="page">
+    <div class="page-inner">
+
+      <!-- ====================================================== 1 选图 -->
+      <section class="card" id="stepInput">
+        <div class="card-head">
+          <div>
+            <h2 class="card-title">选择两张图片</h2>
+            <div class="card-sub">第一张是基准图，第二张是待比对图；也可以直接从历史记录里挑</div>
+          </div>
+        </div>
+
+        <form id="compareForm" class="controls">
+          <label class="file-drop" for="baseInput" data-dropzone="base">
+            <span>第一张图（基准）</span>
+            <strong id="baseName">拖入或点击选择</strong>
+            <input id="baseInput" name="base" type="file" accept="image/*">
+          </label>
+
+          <label class="file-drop" for="compareInput" data-dropzone="compare">
+            <span>第二张图（待比对）</span>
+            <strong id="compareName">拖入或点击选择</strong>
+            <input id="compareInput" name="compare" type="file" accept="image/*">
+          </label>
+
+          <div class="modebar">
+            <label><input type="radio" name="mode" value="mural" checked> 壁画纹样</label>
+            <label><input type="radio" name="mode" value="pixel"> 像素差异</label>
+            <label class="range-field">灵敏度 <input id="sensitivity" name="sensitivity" type="range" min="1" max="10" value="5"> <span id="sensitivityValue">5</span></label>
+            <label class="number-field">最小区域 <input name="minArea" type="number" min="40" max="5000" value="280"></label>
+            <label class="number-field">检测数量 <input name="maxRegions" type="number" min="20" max="300" value="120"></label>
+            <label class="batch-toggle-field"><input name="enableAlign" type="checkbox" checked> 自动对齐</label>
+            <label class="batch-toggle-field"><input id="batchToggle" type="checkbox"> 批量模式</label>
+          </div>
+
+          <button id="compareButton" type="submit">开始比较</button>
+          <button id="batchRunButton" class="btn-primary" type="button" hidden>运行批量比对</button>
+
+          <div class="history-row">
+            <label>第一张历史 <select id="baseHistorySelect"></select></label>
+            <label>第二张历史 <select id="compareHistorySelect"></select></label>
+            <button id="refreshHistoryButton" class="btn-ghost" type="button">刷新历史</button>
+            <button id="clearHistoryButton" class="btn-ghost" type="button">清空历史</button>
+            <input id="baseHistoryPath" name="baseHistoryPath" type="hidden">
+            <input id="compareHistoryPath" name="compareHistoryPath" type="hidden">
+          </div>
+
+          <section id="batchPanel" class="batch-panel" hidden>
+            <header><h2>批量比对队列</h2></header>
+            <div id="batchList" class="batch-list"></div>
+            <button id="batchAddButton" class="btn-ghost" type="button">把当前两张图加入队列</button>
+          </section>
+        </form>
+      </section>
+
+      <!-- ====================================================== 2 参数 -->
+      <!-- .metrics 会被 app.js 移进 .history-row，这里保持原有的可移动位置 -->
+      <section id="stepSummary" class="metrics">
+        <div><span>结果</span><strong id="matchText">-</strong></div>
+        <div><span id="countLabel">边缘差异像素</span><strong id="diffCount">-</strong></div>
+        <div><span>差异比例</span><strong id="diffPercent">-</strong></div>
+        <div><span>对齐</span><strong id="alignText">-</strong></div>
+      </section>
+
+      <!-- ====================================================== 3 审查 -->
+      <section class="workspace" id="stepReview">
+        <section class="main-viewers">
+          <article class="viewer-card">
+            <header>
+              <h2>前后对比</h2>
+              <div class="viewer-tools">
+                <div class="segment-control">
+                  <label><input type="radio" name="viewMode" value="split" checked> 滑块</label>
+                  <label><input type="radio" name="viewMode" value="opacity"> 透明度</label>
+                </div>
+                <label id="opacityControl" class="opacity-control">后图透明度 <input id="opacitySlider" type="range" min="0" max="100" value="55"></label>
+                <label>缩放 <input id="compareZoom" type="range" min="50" max="200" value="100"></label>
+                <span id="compareZoomText">100%</span>
+                <button id="compareMaxButton" class="btn-ghost" type="button">最大化</button>
+              </div>
+            </header>
+            <div class="image-stage" id="compareStage">
+              <div class="zoom-layer slider-layer" id="compareLayer">
+                <img id="beforeImage" class="base-image" alt="第一张">
+                <div id="afterClip" class="after-clip">
+                  <img id="afterImage" alt="第二张">
+                </div>
+                <button id="sliderHandle" class="slider-handle" type="button" aria-label="拖动对比滑块"></button>
+              </div>
+            </div>
+          </article>
+
+          <article class="viewer-card">
+            <header>
+              <h2>完整结构差异图</h2>
+              <div class="viewer-tools">
+                <label>缩放 <input id="diffZoom" type="range" min="50" max="200" value="100"></label>
+                <span id="diffZoomText">100%</span>
+                <button id="diffMaxButton" class="btn-ghost" type="button">最大化</button>
+              </div>
+            </header>
+            <div class="image-stage" id="diffStage">
+              <div class="zoom-layer diff-layer" id="diffLayer">
+                <img id="resultDiff" alt="结构差异图">
+                <div id="boxLayer" class="box-layer"></div>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <aside class="change-list">
+          <header>
+            <h2>变化区域</h2>
+            <span id="regionCount">0</span>
+          </header>
+          <div id="regionList" class="region-list">
+            <p class="empty">还没有比对结果。选好两张图，点「开始比较」。</p>
+          </div>
+        </aside>
+      </section>
+
+      <!-- ====================================================== 说明 -->
+      <section class="hint-list">
+        <strong>怎么读这张差异图</strong>
+        <ul>
+          <li><b>红色</b>是第二张图新增的线条，<b>蓝色</b>是第一张图有、第二张图缺失的线条，<b>黄色</b>是两边都有但位置略有偏移的线条。</li>
+          <li>灵敏度越高，参与比对的边缘越多；最小区域越大，越小的差异点会被过滤掉。</li>
+          <li>「自动对齐」会先用 homography 把第二张图对齐到第一张，减少拍摄角度和轻微透视差带来的误报。</li>
+          <li>默认的<b>快速 Canny</b> 线条模式不需要任何模型，绝大多数人不需要跑 <code>setup-dexined.bat</code>。</li>
+          <li>所有图片都留在本机 <code>runs\</code> 目录，服务只监听 <code>127.0.0.1</code>，局域网内其它机器访问不到。</li>
+        </ul>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<!-- ============================================================== 放大弹窗 -->
+<div id="regionModal" class="modal" hidden>
+  <button id="modalClose" class="modal-close" type="button">关闭</button>
+  <img id="modalImage" alt="变化区域放大图">
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>

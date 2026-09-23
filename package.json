@@ -1,0 +1,15 @@
+{
+  "name": "diffeye",
+  "version": "1.2.0",
+  "description": "DiffEye (重明) - local structural and pixel image comparison tool for mural restoration review. A member of the Dayun Mural Toolkit.",
+  "license": "MIT",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "multer": "^2.0.2",
+    "odiff-bin": "^4.3.8"
+  }
+}
